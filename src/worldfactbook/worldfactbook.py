@@ -36,18 +36,18 @@ class WorldFactbook():
         }
 
     def get_url_data(self, url):
-        cache_path = pathlib.Path(self.cache_folder) / urllib.parse.quote(url)
-        if self.cache_folder and self.use_cache and cache_path.exists():           
-            with open(cache_path, "r") as cache_file:
-                return json.load(cache_file)
-        else:        
-            response = requests.get(url)
-            data = response.json()
-            if self.cache_folder:
-                cache_path = pathlib.Path(self.cache_folder) / urllib.parse.quote(url)
-                cache_path.parent.mkdir(parents=True, exist_ok=True)
-                with open(cache_path, "w") as cache_file:
-                    json.dump(data, cache_file)
+        if self.cache_folder:
+            cache_path = pathlib.Path(self.cache_folder) / urllib.parse.quote(url)
+            if self.use_cache and cache_path.exists():           
+                with open(cache_path, "r") as cache_file:
+                    return json.load(cache_file)
+                
+        response = requests.get(url)
+        data = response.json()
+        if self.cache_folder:
+            cache_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(cache_path, "w") as cache_file:
+                json.dump(data, cache_file)
         return data
         
 
@@ -186,7 +186,8 @@ class WorldFactbook():
         country_data_codes = self.get_reference_data("country-data-codes")
         iso3_codes = {}
         for codes in country_data_codes:
-            iso3_codes[codes[0]["value"]] = codes[2]["value"]
+            if codes[2] and "|" in codes[2]["value"]:
+                iso3_codes[codes[0]["value"]] = codes[2]["value"].split("|")[1]
         return iso3_codes
     
     def get_language_codes(self):

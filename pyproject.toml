@@ -1,6 +1,6 @@
 [project]
 name = "worldfactbook"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Python library for fetching and processing data from the CIA World Factbook."
 authors = [{ name = "Laplace's Demon", email = "contact@laplacesdemon.com" }]
 license = "MIT"
