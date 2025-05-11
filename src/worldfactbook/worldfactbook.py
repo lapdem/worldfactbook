@@ -113,6 +113,12 @@ class WorldFactbook():
             place_name: self.string_to_percentage_data(field)
             for place_name, field in field_data.items()
         }
+    
+    def field_to_integer_data(self, field_data):
+        return {
+            place_name: int(field.strip() or 0)
+            for place_name, field in field_data.items()
+        }
 
     def string_to_percentage_data(self, input_string):
         substrings_and_note = self.string_to_list_of_strings_and_note(input_string)
@@ -180,7 +186,9 @@ class WorldFactbook():
         return languages
 
     def get_populations(self):
-        return self.get_field_country_comparison_data("population")
+        raw_population_data = self.get_field_country_comparison_data("population")
+        populations = self.field_to_integer_data(raw_population_data)
+        return populations
 
     def get_country_codes(self):
         country_data_codes = self.get_reference_data("country-data-codes")
