@@ -32,7 +32,7 @@ class WorldFactbook():
             "name": "CIA World Factbook",
             "url": self.base_url,
             "copyright": "public domain",
-            "accessed_on": datetime.date.today().isoformat,
+            "accessed_on": datetime.date.today().isoformat(),
         }
 
     def get_url_data(self, url):
